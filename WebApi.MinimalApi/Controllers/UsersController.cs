@@ -37,6 +37,11 @@ public class UsersController : Controller
         
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
+
+        if (!user.Login.All(char.IsLetterOrDigit))
+        {
+            ModelState.AddModelError("Login", "Login must contain ");
+        }
         
         var userEntity = mapper.Map<CreateUserDto, UserEntity>(user);
         var createdUserEntity = userRepository.Insert(userEntity);
